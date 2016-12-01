@@ -18,11 +18,12 @@ fs.writeFileSync('./src/config.json', JSON.stringify(conf, null, '  '));
 console.log("isProduction: ", isProduction);
 
 gulp.task('browserify', function() {
-	var b = browserify({
-		entries: ['src/js/main.js'],
-		debug: true
-	});
-	b.transform("babelify", { presets: ["es2015", "react"] });
+  var b = browserify({
+    entries: ['src/js/main.js'],
+    extensions: ['.jsx', '.js', '.json' ],
+    debug: true
+  });
+  b.transform("babelify", { presets: ["es2015", "react"] });
   return b.bundle()
     .pipe(source('main.js'))
     .pipe(gulpif(isProduction, streamify(uglify())))
@@ -38,8 +39,8 @@ gulp.task('css', function() {
 });
 
 gulp.task('html', function () {
-	gulp.src('src/index.html')
-		.pipe(gulp.dest('dist'));
+  gulp.src('src/index.html')
+    .pipe(gulp.dest('dist'));
 });
 
 gulp.task('watch', function() {
